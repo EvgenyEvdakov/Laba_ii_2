@@ -1,63 +1,84 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# Поиск кратчайшего пути в лабиринте.
+# Расширенный подсчет количества островов в бинарной матрице.
 
 from collections import deque
 
-# Функция для поиска кратчайшего пути в лабиринте
-def bfs(maze, start, goal):
-    # Дирекции для перемещения (верх, низ, влево, вправо)
-    directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
-    queue = deque([start])
-    visited = {start: None}  # Словарь для отслеживания предков
+# Ниже перечислены все восемь возможных перемещений из ячейки.
+# (верхний, правый, нижний, левый и четыре диагональных хода)
+row = [-1, -1, -1, 0, 1, 0, 1, 1]
+col = [-1, 1, 0, -1, -1, 1, 0, 1]
 
-    while queue:
-        current = queue.popleft()
 
-        # Если достигли цели, строим путь
-        if current == goal:
-            path = []
-            while current is not None:
-                path.append(current)
-                current = visited[current]
-            return path[::-1]  # Возвращаем путь в обратном порядке
+# Функция проверки безопасного перехода в позицию (x, y)
+# с текущей позиции. Функция возвращает false, если (x, y)
+# недействительные матричные координаты или (x, y) представляет воду или
+# Позиция # (x, y) уже обработана.
 
-        # Проверка соседних клеток
-        for d in directions:
-            neighbor = (current[0] + d[0], current[1] + d[1])
-            if (0 <= neighbor[0] < len(maze) and
-                    0 <= neighbor[1] < len(maze[0]) and
-                    maze[neighbor[0]][neighbor[1]] == 1 and
-                    neighbor not in visited):
-                visited[neighbor] = current
-                queue.append(neighbor)
+def isSafe(mat, x, y, processed):
+    return (x >= 0 and x < len(processed)) and (y >= 0 and y < len(processed[0])) and \
+        mat[x][y] == 1 and not processed[x][y]
 
-    return None  # Если путь не найден
+
+def BFS(mat, processed, i, j):
+    # создает пустую queue и ставит в queue исходный узел
+    q = deque()
+    q.append((i, j))
+
+    # пометить исходный узел как обработанный
+    processed[i][j] = True
+
+    # Цикл # до тех пор, пока queue не станет пустой
+    while q:
+        # удаляет передний узел из очереди и обрабатывает его
+        x, y = q.popleft()
+
+        # проверяет все восемь возможных перемещений из текущей ячейки
+        # и ставить в queue каждое допустимое движение
+        for k in range(len(row)):
+            # пропустить, если локация недействительна, уже обработана или содержит воду
+            if isSafe(mat, x + row[k], y + col[k], processed):
+                # пропустить, если местоположение неверно или уже
+                # обработан или состоит из воды
+                processed[x + row[k]][y + col[k]] = True
+                q.append((x + row[k], y + col[k]))
+
+
+def countIslands(mat):
+    # Базовый вариант
+    if not mat or not len(mat):
+        return 0
+
+    # Матрица `M × N`
+    (M, N) = (len(mat), len(mat[0]))
+
+    # запоминает, обработана ячейка или нет
+    processed = [[False for x in range(N)] for y in range(M)]
+
+    island = 0
+    for i in range(M):
+        for j in range(N):
+            # запускает BFS с каждого необработанного узла и увеличивает количество островов
+            if mat[i][j] == 1 and not processed[i][j]:
+                BFS(mat, processed, i, j)
+                island = island + 1
+
+    return island
+
 
 if __name__ == '__main__':
-    # Определение лабиринта
-    maze = [
-        [1, 0, 1, 1, 1, 0, 1, 1, 1, 1],
-        [1, 0, 1, 0, 1, 0, 0, 0, 0, 1],
-        [1, 1, 1, 0, 1, 1, 1, 1, 0, 1],
-        [0, 0, 0, 1, 0, 0, 0, 1, 0, 1],
-        [1, 1, 1, 1, 1, 1, 0, 1, 1, 1],
-        [1, 0, 0, 0, 0, 1, 0, 0, 0, 1],
-        [1, 1, 1, 1, 0, 1, 1, 1, 1, 1],
-        [0, 0, 0, 1, 0, 0, 0, 0, 0, 1],
-        [1, 1, 1, 1, 1, 1, 1, 0, 1, 1],
-        [1, 0, 0, 0, 0, 0, 1, 1, 1, 1],
+    mat = [
+        [0, 0, 1, 0, 1, 1, 0, 1, 1, 0],
+        [0, 0, 0, 0, 1, 0, 1, 0, 0, 0],
+        [1, 0, 1, 1, 0, 0, 0, 1, 1, 0],
+        [0, 1, 1, 0, 0, 1, 1, 0, 0, 1],
+        [1, 0, 1, 0, 1, 1, 0, 1, 1, 0],
+        [1, 0, 1, 0, 1, 1, 1, 0, 1, 1],
+        [0, 0, 0, 0, 1, 1, 1, 1, 0, 1],
+        [0, 1, 1, 0, 1, 1, 0, 1, 0, 1],
+        [1, 0, 0, 0, 0, 0, 0, 0, 1, 1],
+        [1, 1, 1, 1, 0, 0, 0, 0, 1, 0]
+
     ]
 
-    # Начальная и конечная точки
-    initial = (0, 0)
-    goal = (9, 9)
-
-    # Запуск поиска кратчайшего пути
-    path = bfs(maze, initial, goal)
-
-    if path:
-        print("Кратчайший путь:", path)
-        print("Длина пути:", len(path) - 1)
-    else:
-        print("Путь не найден")
+    print('Общее количество островов:', countIslands(mat))
