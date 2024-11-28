@@ -105,7 +105,6 @@ if __name__ == "__main__":
         28: [(27, 57)]
     }
 
-    # Задача: найти кратчайший путь от узла 1 до узла 14
     start = 18
     goal = 12
     problem = Problem(start, goal)
