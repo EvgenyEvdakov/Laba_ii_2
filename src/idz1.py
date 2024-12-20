@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+
 # Расширенный подсчет количества островов в бинарной матрице.
 
 from collections import deque

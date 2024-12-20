@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+
 # Поиск кратчайшего пути в лабиринте.
 
 from collections import deque
