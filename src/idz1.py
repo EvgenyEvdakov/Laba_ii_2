@@ -5,6 +5,7 @@
 
 from collections import deque
 
+
 # Ниже перечислены все восемь возможных перемещений из ячейки.
 # (верхний, правый, нижний, левый и четыре диагональных хода)
 row = [-1, -1, -1, 0, 1, 0, 1, 1]
@@ -16,9 +17,14 @@ col = [-1, 1, 0, -1, -1, 1, 0, 1]
 # недействительные матричные координаты или (x, y) представляет воду или
 # Позиция # (x, y) уже обработана.
 
+
 def isSafe(mat, x, y, processed):
-    return (x >= 0 and x < len(processed)) and (y >= 0 and y < len(processed[0])) and \
-        mat[x][y] == 1 and not processed[x][y]
+    return (
+        (x >= 0 and x < len(processed))
+        and (y >= 0 and y < len(processed[0]))
+        and mat[x][y] == 1
+        and not processed[x][y]
+    )
 
 
 def BFS(mat, processed, i, j):
@@ -67,7 +73,7 @@ def countIslands(mat):
     return island
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     mat = [
         [0, 0, 1, 0, 1, 1, 0, 1, 1, 0],
         [0, 0, 0, 0, 1, 0, 1, 0, 0, 0],
@@ -78,8 +84,7 @@ if __name__ == '__main__':
         [0, 0, 0, 0, 1, 1, 1, 1, 0, 1],
         [0, 1, 1, 0, 1, 1, 0, 1, 0, 1],
         [1, 0, 0, 0, 0, 0, 0, 0, 1, 1],
-        [1, 1, 1, 1, 0, 0, 0, 0, 1, 0]
-
+        [1, 1, 1, 1, 0, 0, 0, 0, 1, 0],
     ]
 
-    print('Общее количество островов:', countIslands(mat))
+    print("Общее количество островов:", countIslands(mat))

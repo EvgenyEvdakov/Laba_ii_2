@@ -3,6 +3,7 @@
 
 # Рассмотрим реализацию алгоритма поиска в ширину на практике, в программном коде.
 
+
 class Node:
     def __init__(self, state, parent=None):
         self.state = state

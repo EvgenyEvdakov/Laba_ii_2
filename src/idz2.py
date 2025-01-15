@@ -5,6 +5,7 @@
 
 from collections import deque
 
+
 # Функция для поиска кратчайшего пути в лабиринте
 def bfs(maze, start, goal):
     # Дирекции для перемещения (верх, низ, влево, вправо)
@@ -26,14 +27,17 @@ def bfs(maze, start, goal):
         # Проверка соседних клеток
         for d in directions:
             neighbor = (current[0] + d[0], current[1] + d[1])
-            if (0 <= neighbor[0] < len(maze) and
-                    0 <= neighbor[1] < len(maze[0]) and
-                    maze[neighbor[0]][neighbor[1]] == 1 and
-                    neighbor not in visited):
+            if (
+                0 <= neighbor[0] < len(maze)
+                and 0 <= neighbor[1] < len(maze[0])
+                and maze[neighbor[0]][neighbor[1]] == 1
+                and neighbor not in visited
+            ):
                 visited[neighbor] = current
                 queue.append(neighbor)
 
     return None  # Если путь не найден
+
 
 maze = [
     [1, 0, 1, 1, 1, 0, 1, 1, 1, 1],

@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import unittest
 import sys
+import unittest
 
-sys.path.append('../src')
-from idz3 import Problem, breadth_first_search  # Имя файла с вашим кодом: bfs_graph.py
+
+sys.path.append("../src")
+from idz3 import Problem  # Имя файла с вашим кодом: bfs_graph.py
+from idz3 import breadth_first_search
+
 
 class TestBreadthFirstSearch(unittest.TestCase):
     def setUp(self):
@@ -39,7 +42,7 @@ class TestBreadthFirstSearch(unittest.TestCase):
 
         # Проверяем, что путь не найден
         self.assertIsNone(path, "Путь не должен быть найден")
-        self.assertEqual(distance, float('inf'), "Длина пути должна быть бесконечностью")
+        self.assertEqual(distance, float("inf"), "Длина пути должна быть бесконечностью")
 
     def test_start_is_goal(self):
         start = goal = 18  # Начальная и конечная точка совпадают
@@ -49,6 +52,7 @@ class TestBreadthFirstSearch(unittest.TestCase):
         # Проверяем, что возвращается корректный результат
         self.assertEqual(path, [start], "Путь должен состоять только из начальной точки")
         self.assertEqual(distance, 0, "Длина пути должна быть равна 0")
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import unittest
 import sys
+import unittest
 
-sys.path.append('../src')
+
+sys.path.append("../src")
 from idz2 import bfs  # Имя файла с исходным кодом: bfs_pathfinding.py
+
 
 class TestBFS(unittest.TestCase):
     def setUp(self):
@@ -43,6 +45,7 @@ class TestBFS(unittest.TestCase):
         goal = (1, 0)
         path = bfs(self.maze, start, goal)
         self.assertEqual(path, [start, goal], "Путь должен состоять из двух точек")
+
 
 if __name__ == "__main__":
     unittest.main()

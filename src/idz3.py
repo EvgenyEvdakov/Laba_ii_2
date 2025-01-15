@@ -3,6 +3,7 @@
 
 from collections import deque
 
+
 class Node:
     def __init__(self, state, parent=None):
         self.state = state  # текущий город/узел
@@ -15,6 +16,7 @@ class Node:
             path_back.append(node.state)
             node = node.parent
         return path_back[::-1]  # Путь в прямом порядке
+
 
 class FIFOQueue:
     def __init__(self, initial=None):
@@ -29,10 +31,12 @@ class FIFOQueue:
     def __bool__(self):
         return len(self.queue) > 0
 
+
 def expand(graph, node):
     """Генерирует дочерние узлы для текущего узла."""
     for neighbor, _ in graph.get(node.state, []):
         yield Node(neighbor, node)
+
 
 class Problem:
     def __init__(self, initial, goal):
@@ -42,7 +46,9 @@ class Problem:
     def is_goal(self, state):
         return state == self.goal
 
+
 failure = None  # Значение для обозначения неудачи
+
 
 def breadth_first_search(problem, graph):
     node = Node(problem.initial)
@@ -60,7 +66,9 @@ def breadth_first_search(problem, graph):
             s = child.state
             if problem.is_goal(s):
                 # Вычисление общей стоимости пути
-                total_distance = current_distance + next(weight for neighbor, weight in graph[node.state] if neighbor == s)
+                total_distance = current_distance + next(
+                    weight for neighbor, weight in graph[node.state] if neighbor == s
+                )
                 return child.path(), total_distance
 
             # Добавляем в очередь только непосещенные или если найден более короткий путь
@@ -69,7 +77,8 @@ def breadth_first_search(problem, graph):
                 reached[s] = current_distance + edge_weight
                 frontier.appendleft(child)
 
-    return failure, float('inf')  # если пути не существует
+    return failure, float("inf")  # если пути не существует
+
 
 # Пример использования
 if __name__ == "__main__":
@@ -102,7 +111,7 @@ if __name__ == "__main__":
         25: [(14, 54), (26, 46)],
         26: [(25, 46)],
         27: [(24, 40), (28, 57)],
-        28: [(27, 57)]
+        28: [(27, 57)],
     }
 
     start = 18
